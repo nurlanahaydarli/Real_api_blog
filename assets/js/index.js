@@ -7,9 +7,6 @@ let loadingSpinner = document.getElementById("loadingSpinner")
 let close_modal = document.getElementById("close_modal")
 let alert_box = document.querySelector(".alert_box")
 let close_alert = document.querySelector("#close_alert")
-let post_title_edit = document.querySelector(".post_title_edit")
-let post_text_edit = document.querySelector(".post_text_edit")
-let edit_modal = document.querySelector(".modal_edit")
 
 let data = [];
 
@@ -129,7 +126,7 @@ async function handleRemoveEl(id) {
         alert_box.style.display = "block"
 
         data = data.filter((post) => {
-           return post.index !== id
+            return post.index !== id
         });
 
         renderElements(data);
@@ -139,6 +136,7 @@ async function handleRemoveEl(id) {
         console.log("err", err);
     }
 }
+
 // edit post
 async function uptPost(id, form) {
     const options = {
@@ -158,15 +156,15 @@ async function uptPost(id, form) {
 
     console.log("data:", data);
 }
+
 // Function to open the modal for editing a post
 function openEditModal(id) {
     // Selecting the card body of the post with the specified id:
     const blog_list = document.querySelector(
         `#blog_list .col-lg-6[data-id="${id}"] .blog-bottom`
     );
-    console.log(blog_list)
     const postToEdit = data.find((post) => {
-       return post.id === id
+        return post.id === id
     });
     if (!postToEdit) {
         console.log("Post not found");
@@ -177,11 +175,12 @@ function openEditModal(id) {
     <div class="mt-3">
         <input class="form-control mb-2" id="editedPostTitle" value="${postToEdit.title}" />
         <textarea class="form-control mb-2" id="editedPostDesc">${postToEdit.body}</textarea>
-        <button class="btn btn-success btn-sm" onclick="saveEditedPost(${id})">Yadda saxla</button>
-        <button type="button" class="btn btn-secondary btn-sm" onclick="closeEditedPost()" data-bs-dismiss="modal">Bağla</button>
+        <button class="" onclick="saveEditedPost(${id})">Yadda saxla</button>
+        <button type="button" class="" onclick="closeEditedPost()" data-bs-dismiss="modal">Bağla</button>
     </div>
   `;
 }
+
 
 // Function to handle the edit button click
 function handleEdit(id) {
@@ -208,9 +207,12 @@ async function saveEditedPost(id) {
         // Update the post on the server
         const updatedPost = await uptPost(id, updatedForm);
         // Update data array with the edited post
-        data = data.map((post) =>(post.id === id ? updatedPost : post)
+        console.log(data)
+        data = data.map((post) => {
+                return (post.id === id ? updatedPost : post)
+            }
         );
-        console.log(data);
+
 
         // Render the updated data back to the UI
         renderElements(data);
