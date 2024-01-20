@@ -834,11 +834,13 @@ footer .footer-links iframe {
     line-height: 22px;
     color: #413A3A;
 }
-.input:focus {
+.input:focus,
+.input:not(:placeholder-shown):focus{
     box-shadow: 0px 4px 15px rgba(65, 58, 58, 0.1);
 }
 
 .input:focus ~ .label,
+.input:not(:placeholder-shown):focus ~ .label,
 .input.hascontent ~ .label {
     top: -10%;
     font-size: 0.8em;

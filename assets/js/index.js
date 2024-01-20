@@ -62,7 +62,6 @@ post_blog.addEventListener("click", async function () {
         post_blog.setAttribute("disabled", "true");
         loadingSpinner.classList.remove("d-none");
         loadingSpinner.classList.add("d-block");
-
         const title = post_title.value;
         const body = post_text.value;
 
@@ -78,6 +77,7 @@ post_blog.addEventListener("click", async function () {
         const new_post = await createPost(form);
 
         data = [new_post, ...data];
+        location.reload()
         post_title.value = ""
         post_text.value = ""
         // App() sehf yanasmadi
@@ -128,7 +128,9 @@ async function handleRemoveEl(id) {
         data = data.filter((post) => {
             return post.index !== id
         });
-
+        setTimeout(()=>{
+            location.reload()
+        },1000)
         renderElements(data);
 
         // App();
@@ -154,7 +156,8 @@ async function uptPost(id, form) {
 
     const data = await response.json();
 
-    console.log("data:", data);
+    return data
+
 }
 
 // Function to open the modal for editing a post
@@ -203,9 +206,9 @@ async function saveEditedPost(id) {
             title: editedTitle,
             body: editedDesc,
         };
-
         // Update the post on the server
         const updatedPost = await uptPost(id, updatedForm);
+
         // Update data array with the edited post
         console.log(data)
         data = data.map((post) => {
