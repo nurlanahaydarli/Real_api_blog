@@ -2,11 +2,14 @@ let post_blog = document.getElementById("post_btn")
 let post_title = document.getElementById("post_title")
 let post_text = document.getElementById("post_text")
 let blog_list = document.getElementById("blog_list")
-let modal = document.querySelector(".modal")
+let modal = document.querySelector(".modal_alert")
 let loadingSpinner = document.getElementById("loadingSpinner")
 let close_modal = document.getElementById("close_modal")
 let alert_box = document.querySelector(".alert_box")
 let close_alert = document.querySelector("#close_alert")
+let post_title_edit = document.querySelector(".post_title_edit")
+let post_text_edit = document.querySelector(".post_text_edit")
+let edit_modal = document.querySelector(".modal_edit")
 
 let data = [];
 
@@ -65,7 +68,6 @@ post_blog.addEventListener("click", async function () {
 
         const title = post_title.value;
         const body = post_text.value;
-        // const id = `BLG${Math.round(Math.random() * 100000)}`
 
         if (!title.trim() || !body.trim()) {
             modal.style.display = "block"
@@ -126,7 +128,9 @@ async function handleRemoveEl(id) {
 
         alert_box.style.display = "block"
 
-        data = data.filter((post) => post.id !== id);
+        data = data.filter((post) => {
+           return post.index !== id
+        });
 
         renderElements(data);
 
@@ -154,22 +158,70 @@ async function uptPost(id, form) {
 
     console.log("data:", data);
 }
-async function handleEditEl(id) {
+// Function to open the modal for editing a post
+function openEditModal(id) {
+    // Selecting the card body of the post with the specified id:
+    const blog_list = document.querySelector(
+        `#blog_list .col-lg-6[data-id="${id}"] .blog-bottom`
+    );
+    console.log(blog_list)
+    const postToEdit = data.find((post) => {
+       return post.id === id
+    });
+    if (!postToEdit) {
+        console.log("Post not found");
+        return;
+    }
+    // Convert card content to input fields in the modal
+    blog_list.innerHTML = `
+    <div class="mt-3">
+        <input class="form-control mb-2" id="editedPostTitle" value="${postToEdit.title}" />
+        <textarea class="form-control mb-2" id="editedPostDesc">${postToEdit.body}</textarea>
+        <button class="btn btn-success btn-sm" onclick="saveEditedPost(${id})">Yadda saxla</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="closeEditedPost()" data-bs-dismiss="modal">Bağla</button>
+    </div>
+  `;
+}
+
+// Function to handle the edit button click
+function handleEdit(id) {
+    openEditModal(id);
+}
+
+// Function to save the edited post
+async function saveEditedPost(id) {
     try {
-        console.log("id", id);
-        console.log("edit")
-        await uptPost(id);
+        const editedTitle = document.querySelector("#editedPostTitle").value;
+        const editedDesc = document.querySelector("#editedPostDesc").value;
 
-        alert_box.style.display = "block"
+        if (!editedTitle.trim() || !editedDesc.trim()) {
+            modal.style.display = 'block'
+            return;
+        }
 
-        data = data.filter((post) => post.id !== id);
+        // Updated form data
+        const updatedForm = {
+            title: editedTitle,
+            body: editedDesc,
+        };
 
+        // Update the post on the server
+        const updatedPost = await uptPost(id, updatedForm);
+        // Update data array with the edited post
+        data = data.map((post) =>(post.id === id ? updatedPost : post)
+        );
+        console.log(data);
+
+        // Render the updated data back to the UI
         renderElements(data);
-
-        // App();
     } catch (err) {
         console.log("err", err);
     }
+}
+
+// Function to close the modal
+function closeEditedPost() {
+    renderElements(data);
 }
 
 //? GENERAL
@@ -178,13 +230,13 @@ function renderElements(data) {
         .map((post, index) => {
             if (index < 101) return null;
             return `
-            <div class="col-lg-6">
+            <div class="col-lg-6" data-id=${post.id}>
                 <div class="main-blog-box">
                     <a href="blog-detail.html"><img class="main-img" src="assets/img/office-implements-black-table 2.png" alt=""></a>
                     <div class="blog-bottom">
                         <span>${post.title}</span>
                         <h4>${post.body}</h4>
-                        <button type="button" onclick="handleEditEl(${post.id})">Redatə</button>
+                        <button type="button" onclick="handleEdit(${post.id})">Redatə</button>
                         <button type="button" onclick="handleRemoveEl(${post.id})">Silin</button>
                     </div>
                 </div>
@@ -214,3 +266,10 @@ close_modal.addEventListener("click", function () {
 close_alert.addEventListener("click", function () {
     alert_box.style.display = 'none'
 })
+
+
+
+
+
+
+

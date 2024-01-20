@@ -11,27 +11,8 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body id="body">
-<div class="alert_box">
-    <div class="alert alert-success" role="alert">
-       Post uğurla silindi!!!
-    </div>
-    <button type="button" class="btn-close" id="close_alert" data-bs-dismiss="modal" aria-label="Close"></button>
-</div>
-<div class="modal fade show" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"  aria-modal="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Səhv baş verdi!</h5>
-                <button type="button" class="btn-close" id="close_modal" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-danger" role="alert">
-                    Xanaları düzgün doldurun
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+
 <main>
     <div class="shadow-category"></div>
     <header>
@@ -851,6 +832,32 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </main>
+
+<!--======================================MODAL======================================-->
+<!--alert-->
+<div class="alert_box">
+    <div class="alert alert-success" role="alert">
+        Post uğurla silindi!!!
+    </div>
+    <button type="button" class="btn-close" id="close_alert" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<!--alert modal-->
+<div class="modal modal_alert fade show" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"  aria-modal="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Səhv baş verdi!</h5>
+                <button type="button" class="btn-close" id="close_modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    Xanaları düzgün doldurun
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
         crossorigin="anonymous"></script>
