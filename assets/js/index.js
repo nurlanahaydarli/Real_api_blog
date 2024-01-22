@@ -118,13 +118,9 @@ async function rmvPost(id) {
 
 async function handleRemoveEl(id) {
     try {
-        console.log("id", id);
-
         // const removeEl = await rmvPost(id);
         await rmvPost(id);
-
         alert_box.style.display = "block"
-
         data = data.filter((post) => {
             return post.index !== id
         });
